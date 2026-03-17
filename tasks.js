@@ -33,15 +33,18 @@ function addTask() {
 }
 
 function renderTasks() {
-    let container = document.getElementById("taskList");
+    const container = document.getElementById("taskList");
     if (!container) return;
 
     container.innerHTML = "";
 
+    const searchInput = document.getElementById("search");
+    const searchText = searchInput ? searchInput.value.toLowerCase() : "";
+
     tasks
-        .filter(t => t.user === currentUser)
+        .filter(t => t.user === currentUser && t.text.toLowerCase().includes(searchText))
         .forEach((task, index) => {
-            let card = document.createElement("div");
+            const card = document.createElement("div");
             card.className = "task-card";
 
             // Цвет по приоритету
@@ -60,14 +63,20 @@ function renderTasks() {
                     <button onclick="deleteTask(${index})">Удалить</button>
                 </div>
             `;
+
+            // Подсветка просроченных задач
+            if (task.deadline && new Date(task.deadline) < new Date() && task.status !== "done") {
+                card.style.backgroundColor = "#f8d7da"; // светло-красный фон
+            }
+
             container.appendChild(card);
         });
 }
 
 function changeStatus(index) {
-    let statuses = ["new", "in progress", "done"];
-    let current = statuses.indexOf(tasks[index].status);
-    tasks[index].status = statuses[(current + 1) % 3];
+    const statuses = ["new", "in progress", "done"];
+    const current = statuses.indexOf(tasks[index].status);
+    tasks[index].status = statuses[(current + 1) % statuses.length];
     saveTasks();
     renderTasks();
 }
@@ -79,14 +88,14 @@ function deleteTask(index) {
 }
 
 function editTask(index) {
-    let task = tasks[index];
-    let newText = prompt("Редактировать текст задачи:", task.text);
+    const task = tasks[index];
+    const newText = prompt("Редактировать текст задачи:", task.text);
     if (newText !== null) task.text = newText;
 
-    let newDeadline = prompt("Редактировать дедлайн (YYYY-MM-DD):", task.deadline || "");
+    const newDeadline = prompt("Редактировать дедлайн (YYYY-MM-DD):", task.deadline || "");
     if (newDeadline !== null) task.deadline = newDeadline;
 
-    let newPriority = prompt("Редактировать приоритет (low/medium/high):", task.priority);
+    const newPriority = prompt("Редактировать приоритет (low/medium/high):", task.priority);
     if (newPriority !== null) task.priority = newPriority;
 
     saveTasks();
