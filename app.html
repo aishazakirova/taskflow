@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TaskFlow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+    <h2>TaskFlow</h2>
+    <button onclick="logout()" class="logout-btn">Выйти</button>
+</div>
+
+<div class="add-task">
+    <input id="taskInput" placeholder="Введите задачу">
+    <input type="date" id="taskDeadline">
+    <select id="taskPriority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select>
+    <button onclick="addTask()">Добавить</button>
+</div>
+
+<div class="sort-buttons">
+    <button onclick="sortTasks('deadline')">Сортировать по дедлайну</button>
+    <button onclick="sortTasks('priority')">Сортировать по приоритету</button>
+</div>
+
+<div id="taskList" class="task-container"></div>
+
+<script src="auth.js"></script>
+<script src="tasks.js"></script>
+<script src="test.js"></script>
+
+<script>
+function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

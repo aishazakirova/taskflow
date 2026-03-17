@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Вход</h2>
+
+<input id="loginUser" placeholder="Логин">
+<input id="loginPass" type="password" placeholder="Пароль">
+<button onclick="loginUser()">Войти</button>
+
+<p id="msg"></p>
+
+<a href="register.html">Регистрация</a>
+
+<script src="auth.js"></script>
+<script>
+function loginUser() {
+    let u = document.getElementById("loginUser").value;
+    let p = document.getElementById("loginPass").value;
+
+    let result = login(u, p);
+
+    document.getElementById("msg").innerText = result;
+
+    if (result === "Вход выполнен") {
+        window.location.href = "app.html";
+    }
+}
+</script>
+<script src="test.js"></script>
+<script src="tasks.js"></script>
+
+</body>
+</html>
